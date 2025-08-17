@@ -2,12 +2,14 @@ package data.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Entity
 @Data
-@Table(name = "avroraprojects")
+@Table(name = "projects")
 public class ProjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,4 +24,5 @@ public class ProjectEntity {
 
     @Column(name = "date")
     private LocalDate date;
+
 }
