@@ -30,6 +30,12 @@
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.42.0.0</version>
         </dependency>
+        <!-- Hibernate SQLite Dialect -->
+        <dependency>
+            <groupId>com.github.gwenn</groupId>
+            <artifactId>sqlite-dialect</artifactId>
+            <version>0.1.4</version>
+        </dependency>
         <!--  https://mvnrepository.com/artifact/org.hibernate/hibernate-core  -->
         <dependency>
             <groupId>org.hibernate</groupId>

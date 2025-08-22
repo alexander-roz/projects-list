@@ -1,13 +1,13 @@
 package data;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
+import javax.persistence.Entity;
 import java.time.LocalDate;
 @Data
+@Entity
+@Table(name = "projects", schema = "projects")
 public class ProjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
