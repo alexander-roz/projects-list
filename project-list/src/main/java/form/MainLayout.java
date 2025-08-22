@@ -1,12 +1,10 @@
 package form;
 
-import data.entities.ProjectEntity;
-import data.repositories.ProjectEntityRepository;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import data.ProjectEntity;
 
 import javax.swing.*;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class MainLayout extends JDialog {
     private JTextField inputText;
@@ -16,8 +14,6 @@ public class MainLayout extends JDialog {
     private JLabel imgLabel;
     private JLabel text1;
     private JPanel contentPane;
-    SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-    ProjectEntityRepository projectDao = new ProjectEntityRepository(sessionFactory);
 
     public MainLayout() {
         try {
@@ -27,23 +23,19 @@ public class MainLayout extends JDialog {
             System.err.println("ContentPane cannot be set");
         }
 
+        inputButton.addActionListener(e -> createProject(inputText.getText()));
+
     }
 
-    // Добавление проекта
-    private String createProject(String name) {
+    private void createProject(String name){
         ProjectEntity project = new ProjectEntity();
         project.setName(name);
-        projectDao.save(project);
-        return project.getCode();
+        project.setId(1);
+        project.setDate(LocalDate.now());
+        String prefix = (project.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).substring(3,10);
+        project.setCode(project.getId() + "-" + prefix + "-ОВ");
+        outputText.setText(project.getCode());
     }
-
-    // Получение всех проектов
-    private List<ProjectEntity> getProjects() {
-        List<ProjectEntity> projects = projectDao.findAll();
-        projectDao.close();
-        return projects;
-    }
-
     /**
      * @noinspection ALL
      */
