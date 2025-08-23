@@ -15,13 +15,18 @@ public class ProjectRepository {
     public ProjectRepository() {
         try {
             Configuration configuration = new Configuration();
-            configuration.configure("src/main/hibernate.cfg.xml");
+            configuration.configure("hibernate.cfg.xml");
             sessionFactory = configuration.buildSessionFactory();
+            System.out.println("H2 Database connected successfully");
+            System.out.println("Database URL: jdbc:h2:file:./database/projects");
         } catch (Exception e) {
+            System.err.println("Failed to initialize Hibernate SessionFactory: " + e.getMessage());
+            e.printStackTrace();
             throw new RuntimeException("Failed to initialize Hibernate SessionFactory", e);
         }
     }
 
+    // Все методы остаются без изменений
     public ProjectEntity save(ProjectEntity project) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
@@ -48,7 +53,7 @@ public class ProjectRepository {
 
     public List<ProjectEntity> findAll() {
         try (Session session = sessionFactory.openSession()) {
-            Query<ProjectEntity> query = session.createQuery("FROM projects", ProjectEntity.class);
+            Query<ProjectEntity> query = session.createQuery("FROM ProjectEntity", ProjectEntity.class);
             return query.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Failed to retrieve all projects", e);
@@ -69,7 +74,7 @@ public class ProjectRepository {
         }
     }
 
-    public void delete(Long id) {
+    public void delete(int id) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -89,8 +94,8 @@ public class ProjectRepository {
     public Optional<ProjectEntity> findByDocumentCode(String documentCode) {
         try (Session session = sessionFactory.openSession()) {
             Query<ProjectEntity> query = session.createQuery(
-                    "FROM projects WHERE code = :documentCode", ProjectEntity.class);
-            query.setParameter("code", documentCode);
+                    "FROM ProjectEntity WHERE code = :documentCode", ProjectEntity.class);
+            query.setParameter("documentCode", documentCode);
             return query.uniqueResultOptional();
         } catch (Exception e) {
             throw new RuntimeException("Failed to find project by document code: " + documentCode, e);
@@ -100,6 +105,7 @@ public class ProjectRepository {
     public void close() {
         if (sessionFactory != null && !sessionFactory.isClosed()) {
             sessionFactory.close();
+            System.out.println("Database connection closed");
         }
     }
 }

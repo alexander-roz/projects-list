@@ -21,12 +21,28 @@ public class MainFrame extends JDialog {
         try {
             setContentPane(contentPane);
             setModal(true);
-            projectRepository.findAll();
+            projectRepository = new ProjectRepository();
+
+            // Показываем информацию о БД
+            showDatabaseInfo();
         } catch (Exception e) {
             System.err.println("ContentPane cannot be set");
         }
 
         inputButton.addActionListener(e -> createProject(inputText.getText()));
+    }
+
+    private void showDatabaseInfo() {
+        try {
+            int projectCount = projectRepository.findAll().size();
+            JOptionPane.showMessageDialog(this,
+                    "База данных H2 подключена успешно!\n" +
+                            "Найдено проектов в базе: " + projectCount +
+                            "\nФайл базы данных: ./database/projects_database.mv.db",
+                    "Информация о БД", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            System.out.println("Ошибка при получении информации о БД: " + e.getMessage());
+        }
     }
 
     private void createProject(String name){
@@ -42,6 +58,7 @@ public class MainFrame extends JDialog {
             }
         }
         project.setCode(id + "-" + prefix + "-ОВ");
+        projectRepository.update(project);
         outputText.setText(project.getCode());
     }
 
