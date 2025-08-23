@@ -27,24 +27,25 @@ public class ProjectRepository {
     }
 
     // Все методы остаются без изменений
-    public ProjectEntity save(ProjectEntity project) {
+    public void save(ProjectEntity project) {
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.persist(project);
             transaction.commit();
-            return project;
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new RuntimeException("Failed to save project", e);
+            if (transaction != null) transaction.rollback();
+            throw new RuntimeException("Ошибка при сохранении проекта", e);
+        } finally {
+            if (session != null) session.close();
         }
     }
 
     public Optional<ProjectEntity> findById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            ProjectEntity project = session.get(ProjectEntity.class, id);
+            ProjectEntity project = session.getReference(ProjectEntity.class, id);
             return Optional.ofNullable(project);
         } catch (Exception e) {
             throw new RuntimeException("Failed to find project by id: " + id, e);
@@ -78,7 +79,7 @@ public class ProjectRepository {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            ProjectEntity project = session.get(ProjectEntity.class, id);
+            ProjectEntity project = session.getReference(ProjectEntity.class, id);
             if (project != null) {
                 session.remove(project);
             }

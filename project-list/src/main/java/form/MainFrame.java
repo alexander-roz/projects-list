@@ -38,7 +38,7 @@ public class MainFrame extends JDialog {
             JOptionPane.showMessageDialog(this,
                     "База данных H2 подключена успешно!\n" +
                             "Найдено проектов в базе: " + projectCount +
-                            "\nФайл базы данных: ./database/projects_database.mv.db",
+                            "\nФайл базы данных: ./database/projects.mv.db",
                     "Информация о БД", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             System.out.println("Ошибка при получении информации о БД: " + e.getMessage());
