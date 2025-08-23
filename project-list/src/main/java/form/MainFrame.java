@@ -6,6 +6,8 @@ import data.ProjectRepository;
 import javax.swing.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
@@ -18,6 +20,7 @@ public class MainFrame extends JDialog {
     private JLabel text1;
     private JPanel contentPane;
     private JComboBox engineerSelect;
+    private JButton searchButton;
     private ProjectRepository projectRepository;
 
     public MainFrame() {
@@ -38,6 +41,7 @@ public class MainFrame extends JDialog {
         }
 
         inputButton.addActionListener(e -> createProject(inputText.getText()));
+        searchButton.addActionListener(e -> getProject(inputText.getText()));
     }
 
     private void showDatabaseInfo() {
@@ -70,10 +74,31 @@ public class MainFrame extends JDialog {
         projectRepository.update(project);
         outputText.setText(project.getCode());
         JOptionPane.showMessageDialog(this,
-                "Проект добавлен.\nНаименование: "+project.getName()+
+                "Проект сохранен.\nНаименование: "+project.getName()+
                         "\nИсполнитель: "+project.getEngineer()+
                         "\nДата: "+project.getDate()+
                         "\nПрисвоен шифр: "+project.getCode());
+    }
+
+    private void getProject(String name){
+        List<ProjectEntity> projects = new ArrayList<>();
+        StringBuilder searchResult = new StringBuilder("Найдены проекты:\n");
+        for(ProjectEntity projectEntity : projectRepository.findAll()){
+            if(projectEntity.getName().equalsIgnoreCase(name)||
+                    projectEntity.getName().toLowerCase().contains(name.toLowerCase())){
+                projects.add(projectEntity);
+            }
+        }
+        if(projects.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Проекты с заданными параметрами не найдены");
+            return;
+        }
+        else {
+            for (ProjectEntity foundProject : projects) {
+                searchResult.append(foundProject.toString()).append("\n");
+            }
+            JOptionPane.showMessageDialog(this, searchResult.toString());
+        }
     }
 
     /**

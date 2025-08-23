@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="form.MainFrame">
-  <grid id="27dc6" binding="contentPane" layout-manager="GridLayoutManager" row-count="9" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="contentPane" layout-manager="GridLayoutManager" row-count="9" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
       <xy x="20" y="20" width="350" height="400"/>
@@ -15,7 +15,7 @@
     <children>
       <component id="7f03" class="javax.swing.JLabel" binding="imgLabel">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <horizontalAlignment value="0"/>
@@ -27,7 +27,7 @@
       </component>
       <component id="b42ce" class="javax.swing.JLabel" binding="text1">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="1" indent="0" use-parent-layout="false">
+          <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="1" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="128" height="41"/>
           </grid>
         </constraints>
@@ -43,7 +43,7 @@
       </component>
       <component id="d3846" class="javax.swing.JTextField" binding="inputText">
         <constraints>
-          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="9" fill="1" indent="0" use-parent-layout="false">
+          <grid row="3" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="9" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="30"/>
           </grid>
         </constraints>
@@ -60,7 +60,9 @@
       </component>
       <component id="db2ed" class="javax.swing.JButton" binding="inputButton">
         <constraints>
-          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="100" height="-1"/>
+          </grid>
         </constraints>
         <properties>
           <background color="-12368566"/>
@@ -74,7 +76,7 @@
       </component>
       <component id="d3b25" class="javax.swing.JTextArea" binding="text2">
         <constraints>
-          <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
+          <grid row="7" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
@@ -90,7 +92,7 @@
       </component>
       <component id="182df" class="javax.swing.JTextField" binding="outputText">
         <constraints>
-          <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="8" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <minimum-size width="-1" height="30"/>
             <preferred-size width="150" height="30"/>
           </grid>
@@ -106,7 +108,7 @@
       </component>
       <component id="3a0df" class="javax.swing.JLabel">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <font name="Tahoma" size="12" style="3"/>
@@ -116,7 +118,7 @@
       </component>
       <component id="740d7" class="javax.swing.JComboBox" binding="engineerSelect">
         <constraints>
-          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="5" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-7429448"/>
@@ -125,7 +127,7 @@
       </component>
       <component id="636ca" class="javax.swing.JLabel">
         <constraints>
-          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="4" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-12367780"/>
@@ -133,6 +135,22 @@
           <font name="Tahoma" size="12" style="3"/>
           <foreground color="-2631721"/>
           <text value="Исполнитель"/>
+        </properties>
+      </component>
+      <component id="b1e77" class="javax.swing.JButton" binding="searchButton">
+        <constraints>
+          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="100" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-12368566"/>
+          <focusCycleRoot value="true"/>
+          <font name="Tahoma" size="12" style="3"/>
+          <foreground color="-2631721"/>
+          <label value="Поиск"/>
+          <name value="enterButton"/>
+          <text value="Поиск"/>
         </properties>
       </component>
     </children>

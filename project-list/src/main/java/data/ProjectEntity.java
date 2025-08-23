@@ -24,4 +24,13 @@ public class ProjectEntity {
 
     @Column(name = "engineer")
     private String engineer;
+
+    @Override
+    public String toString() {
+        return  "id: " + id +
+                ", наименование: " + name +
+                ", шифр: " + code +
+                ", дата: " + date +
+                ", исполнитель: " + engineer;
+    }
 }
