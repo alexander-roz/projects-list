@@ -21,4 +21,7 @@ public class ProjectEntity {
 
     @Column(name = "date")
     private LocalDate date;
+
+    @Column(name = "engineer")
+    private String engineer;
 }

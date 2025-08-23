@@ -9,7 +9,7 @@ public class Main extends JFrame {
         MainFrame container = new MainFrame();
         JFrame frame = new JFrame("Project list");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(350, 350);
+        frame.setSize(350, 400);
         frame.setLocationRelativeTo(null);
         frame.add(container.getContentPane());
         frame.setVisible(true);
