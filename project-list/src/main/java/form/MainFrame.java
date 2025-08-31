@@ -27,11 +27,11 @@ public class MainFrame extends JDialog {
         try {
             setContentPane(contentPane);
             setModal(true);
-            String[] angles = new String[5];
-            angles[0] = "Коновалов С.В.";
-            angles[1] = "Розанцев А.С.";
+            String[] engineers = new String[5];
+            engineers[0] = "Коновалов С.В.";
+            engineers[1] = "Розанцев А.С.";
 
-            IntStream.range(0, 5).forEach(i -> engineerSelect.addItem(angles[i]));
+            IntStream.range(0, 5).forEach(i -> engineerSelect.addItem(engineers[i]));
             projectRepository = new ProjectRepository();
 
             // Показываем информацию о БД
