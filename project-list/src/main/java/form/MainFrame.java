@@ -41,7 +41,8 @@ public class MainFrame extends JDialog {
         }
 
         inputButton.addActionListener(e -> createProject(inputText.getText()));
-        searchButton.addActionListener(e -> getProject(inputText.getText()));
+        //searchButton.addActionListener(e -> getProject(inputText.getText()));
+        searchButton.addActionListener(e -> goToSearchFrame());
     }
 
     private void showDatabaseInfo() {
@@ -80,25 +81,12 @@ public class MainFrame extends JDialog {
                         "\nПрисвоен шифр: "+project.getCode());
     }
 
-    private void getProject(String name){
-        List<ProjectEntity> projects = new ArrayList<>();
-        StringBuilder searchResult = new StringBuilder("Найдены проекты:\n");
-        for(ProjectEntity projectEntity : projectRepository.findAll()){
-            if(projectEntity.getName().equalsIgnoreCase(name)||
-                    projectEntity.getName().toLowerCase().contains(name.toLowerCase())){
-                projects.add(projectEntity);
-            }
-        }
-        if(projects.isEmpty()){
-            JOptionPane.showMessageDialog(this, "Проекты с заданными параметрами не найдены");
-            return;
-        }
-        else {
-            for (ProjectEntity foundProject : projects) {
-                searchResult.append(foundProject.toString()).append("\n");
-            }
-            JOptionPane.showMessageDialog(this, searchResult.toString());
-        }
+
+    private void goToSearchFrame() {
+        SearchFrame searchFrame = new SearchFrame();
+        searchFrame.pack();
+        searchFrame.setLocationRelativeTo(null);
+        searchFrame.setVisible(true);
     }
 
     /**
