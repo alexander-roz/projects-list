@@ -2,10 +2,13 @@ package form;
 
 import data.ProjectEntity;
 import data.ProjectRepository;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import javax.swing.*;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.IntStream;
 
 public class SearchFrame extends JFrame{
     private JPanel contentPane;
@@ -19,6 +22,7 @@ public class SearchFrame extends JFrame{
     private JTextField projectNameSF;
     private JTextField codeNameSF;
     private ProjectRepository projectRepository;
+    private ProjectEntity currentProject;
 
     public SearchFrame() {
         try {
@@ -31,12 +35,10 @@ public class SearchFrame extends JFrame{
         deleteButton.setEnabled(false);
         searchButtonSF.addActionListener(e -> getProjects(inputTextSF.getText()));
         projectsComboBox.addActionListener(e -> {
-            if (projectsComboBox.getSelectedItem() != null) {
-                ProjectEntity currentProject = new ProjectEntity();
-                String tmpProjectName = projectsComboBox.getSelectedItem().toString();
-                currentProject = getCurrentProject(tmpProjectName);
-            }
-                });
+            String tmpProjectName = projectsComboBox.getSelectedItem().toString();
+            System.out.println(tmpProjectName);
+            currentProject = getCurrentProject(tmpProjectName);
+        });
     }
 
     private void getProjects(String name){
@@ -67,6 +69,7 @@ public class SearchFrame extends JFrame{
                 Optional<ProjectEntity> projectEntity;
                 String[] substring = projectName.split(" ");
                 long projectId = Long.parseLong(substring[0]);
+                System.out.println("projectId: " + projectId);
                 projectEntity = projectRepository.findById(projectId);
                 if(projectEntity.isEmpty()){
                     JOptionPane.showMessageDialog(this, "Проекты с заданными параметрами не найдены");
@@ -75,6 +78,10 @@ public class SearchFrame extends JFrame{
             else {
                     projectNameSF.setText(projectEntity.get().getName());
                     codeNameSF.setText(projectEntity.get().getCode());
+                    String[] engineers = new String[3];
+                    engineers[0] = "Коновалов С.В.";
+                    engineers[1] = "Розанцев А.С.";
+                    IntStream.range(0, 3).forEach(i -> engineerSelectSF.addItem(engineers[i]));
                     engineerSelectSF.setSelectedItem(projectEntity.get().getEngineer());
                     changeButton.setEnabled(true);
                     deleteButton.setEnabled(true);

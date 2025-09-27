@@ -44,12 +44,19 @@ public class ProjectRepository {
     }
 
     public Optional<ProjectEntity> findById(Long id) {
-        try (Session session = sessionFactory.openSession()) {
-            ProjectEntity project = session.getReference(ProjectEntity.class, id);
-            return Optional.ofNullable(project);
+        Session session = null;
+        ProjectEntity project = null;
+        try {
+            session = sessionFactory.openSession();
+            project = session.getReference(ProjectEntity.class, id);
+            System.out.println("Project found: " + project + " in findById method");
         } catch (Exception e) {
             throw new RuntimeException("Failed to find project by id: " + id, e);
         }
+        finally {
+            if (session != null) session.close();
+        }
+        return Optional.ofNullable(project);
     }
 
     public List<ProjectEntity> findAll() {
