@@ -39,10 +39,18 @@ public class SearchFrame extends JFrame{
             System.out.println(tmpProjectName);
             currentProject = getCurrentProject(tmpProjectName);
         });
+        changeButton.addActionListener(e -> {changeProject(currentProject);});
+        deleteButton.addActionListener(e -> {deleteProject(currentProject);});
     }
 
     private void getProjects(String name){
         List<ProjectEntity> projects = new ArrayList<>();
+        projectsComboBox.removeAllItems();
+        engineerSelectSF.removeAllItems();
+        String[] engineers = new String[3];
+        engineers[0] = "Коновалов С.В.";
+        engineers[1] = "Розанцев А.С.";
+        IntStream.range(0, 3).forEach(i -> engineerSelectSF.addItem(engineers[i]));
         for(ProjectEntity projectEntity : projectRepository.findAll()){
             if(projectEntity.getName().equalsIgnoreCase(name)||
                     projectEntity.getName().toLowerCase().contains(name.toLowerCase())){
@@ -78,17 +86,53 @@ public class SearchFrame extends JFrame{
             else {
                     projectNameSF.setText(projectEntity.get().getName());
                     codeNameSF.setText(projectEntity.get().getCode());
-                    String[] engineers = new String[3];
-                    engineers[0] = "Коновалов С.В.";
-                    engineers[1] = "Розанцев А.С.";
-                    IntStream.range(0, 3).forEach(i -> engineerSelectSF.addItem(engineers[i]));
                     engineerSelectSF.setSelectedItem(projectEntity.get().getEngineer());
                     changeButton.setEnabled(true);
                     deleteButton.setEnabled(true);
                     return projectEntity.get();
                 }
         }
+    }
 
+    private void changeProject(ProjectEntity project){
+        if(project == null){
+            JOptionPane.showMessageDialog(this, "Данные для запроса отсутствуют");
+        }
+        else {
+            project.setName(projectNameSF.getText());
+            project.setCode(codeNameSF.getText());
+            project.setEngineer(engineerSelectSF.getSelectedItem().toString());
+            projectRepository.update(project);
+            JOptionPane.showMessageDialog(this,
+                    "Запись для проекта id " + project.getId() + " обновлена.\n" +
+                            "Наименование: " + project.getName() +
+                            "\nШифр: " + project.getCode() +
+                            "\nИсполнитель: " + project.getEngineer());
+            refreshFrame();
+        }
+    }
+
+    private void deleteProject(ProjectEntity project){
+        if(project == null){
+            JOptionPane.showMessageDialog(this, "Данные для запроса отсутствуют");
+        }
+        else {
+            projectRepository.delete(project.getId());
+            JOptionPane.showMessageDialog(this,
+                    "Запись для проекта id " + project.getId() + " удалена.\n" +
+                            "Наименование: " + project.getName() +
+                            "\nШифр: " + project.getCode() +
+                            "\nИсполнитель: " + project.getEngineer());
+        refreshFrame();
+        }
+    }
+
+    private void refreshFrame(){
+        projectNameSF.setText("");
+        codeNameSF.setText("");
+        changeButton.setEnabled(false);
+        deleteButton.setEnabled(false);
+        getProjects(inputTextSF.getText());
     }
 
     /**
