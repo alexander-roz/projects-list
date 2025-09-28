@@ -2,11 +2,11 @@ package form;
 
 import data.EngineerEntity;
 import data.EngineerRepository;
-import data.ProjectRepository;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class EngineersForm  extends JFrame {
     private JPanel contentPaneEF;
@@ -38,12 +38,14 @@ public class EngineersForm  extends JFrame {
         engineerSelectEF.removeAllItems();
         engineerNameEF.setText(null);
         for(EngineerEntity engineer:engineerRepository.findAllEngineers()){
-            engineers.add(engineer.getName());
-            engineerSelectEF.addItem(engineer.getName());
+            engineers.add(engineer.getEngineerName());
+            engineerSelectEF.addItem(engineer.getEngineerName());
         }
         if(engineers.isEmpty()){
             JOptionPane.showMessageDialog(this, "Исполнители не найдены");
             addButtonEF.setEnabled(true);
+            changeButtonEF.setEnabled(false);
+            deleteButtonEF.setEnabled(false);
             return;
         }
         else {
@@ -55,22 +57,23 @@ public class EngineersForm  extends JFrame {
 
     private void saveEngineer(String engineerName) {
         if(engineerName == null || engineerName.isEmpty()){
-            JOptionPane.showMessageDialog(this, "Для добавления записи необходимо заполнить имя");
+            JOptionPane.showMessageDialog(this,
+                    "Для добавления записи необходимо заполнить имя");
         return;
         }
 
         else {
             EngineerEntity newEngineer = new EngineerEntity();
-            newEngineer.setName(engineerName);
+            newEngineer.setEngineerName(engineerName);
             for (EngineerEntity tmpEng:engineerRepository.findAllEngineers()){
-                if(tmpEng.getName().equals(newEngineer.getName())){
+                if(tmpEng.getEngineerName().equalsIgnoreCase(newEngineer.getEngineerName())){
                     JOptionPane.showMessageDialog(this, "Данное имя уже используется");
                     return;
                 }
                 else {
                     engineerRepository.saveEngineer(newEngineer);
                     JOptionPane.showMessageDialog(this,
-                            "Пользователь сохранен.\nНаименование: " + newEngineer.getName());
+                            "Пользователь сохранен.\nПрисвоено имя: " + newEngineer.getEngineerName());
                     getEngineers();
                 }
             }
@@ -80,8 +83,9 @@ public class EngineersForm  extends JFrame {
 
     private void deleteEngineer(String engineerName) {
         EngineerEntity engineer = engineerRepository.findEngineerByName(engineerName);
-        engineerRepository.deleteEngineer(engineer.getId());
-        JOptionPane.showMessageDialog(this, "Исполнитель: " + engineer.getName() + " удален из базы данных");
+        engineerRepository.deleteEngineer(engineer.getEngineerId());
+        JOptionPane.showMessageDialog(this,
+                "Исполнитель: " + engineer.getEngineerName() + " удален из базы данных");
         getEngineers();
     }
 

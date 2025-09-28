@@ -9,15 +9,31 @@ import lombok.Data;
 public class EngineerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "eng_id")
-    private Integer id;
+    @Column(name = "engineerId")
+    private Integer engineerId;
 
-    @Column(name = "eng_name")
-    private String name;
+    @Column(name = "engineerName")
+    private String engineerName;
+
+    public Integer getEngineerId() {
+        return engineerId;
+    }
+
+    public void setEngineerId(Integer id) {
+        this.engineerId = id;
+    }
+
+    public String getEngineerName() {
+        return engineerName;
+    }
+
+    public void setEngineerName(String name) {
+        this.engineerName = name;
+    }
 
     @Override
     public String toString() {
-        return  "id: " + id +
-                ", имя: " + name;
+        return  "id: " + engineerId +
+                ", имя: " + engineerName;
     }
 }

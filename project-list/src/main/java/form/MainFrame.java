@@ -9,7 +9,6 @@ import javax.swing.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
@@ -42,7 +41,7 @@ public class MainFrame extends JDialog {
             
             ArrayList <String> engineers = new ArrayList<>();
             for(EngineerEntity engineer:engineerRepository.findAllEngineers()){
-                engineers.add(engineer.getName());
+                engineers.add(engineer.getEngineerName());
             }
             IntStream.range(0, engineers.size()).forEach(i -> {engineerSelect.addItem(engineers.get(i));});
             // Показываем информацию о БД
@@ -61,9 +60,9 @@ public class MainFrame extends JDialog {
             int projectCount = projectRepository.findAll().size();
             int engineersCount = engineerRepository.findAllEngineers().size();
             JOptionPane.showMessageDialog(this,
-                    "База данных H2 подключена успешно!\n" +
-                            "Найдено проектов в базе: " + projectCount +
-                            "Найдено пользователей: " + engineersCount +
+                    "База данных H2 подключена успешно!" +
+                            "\nНайдено проектов в базе: " + projectCount +
+                            "\nНайдено пользователей: " + engineersCount +
                             "\nФайл базы данных: ./database/projects.mv.db",
                     "Информация о БД", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
@@ -75,7 +74,8 @@ public class MainFrame extends JDialog {
         ProjectEntity project = new ProjectEntity();
         project.setName(name);
         project.setDate(LocalDate.now());
-        project.setEngineerID(engineerRepository.findEngineerByName(engineerSelect.getSelectedItem().toString()));
+        project.setEngineerID(engineerRepository.
+                findEngineerByName(Objects.requireNonNull(engineerSelect.getSelectedItem()).toString()));
         String prefix = (project.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).substring(3,10);
         projectRepository.save(project);
         int id = 0;
@@ -89,7 +89,7 @@ public class MainFrame extends JDialog {
         outputText.setText(project.getCode());
         JOptionPane.showMessageDialog(this,
                 "Проект сохранен.\nНаименование: "+project.getName()+
-                        "\nИсполнитель: "+project.getEngineerID().getName()+
+                        "\nИсполнитель: "+project.getEngineerID().getEngineerName()+
                         "\nДата: "+project.getDate()+
                         "\nПрисвоен шифр: "+project.getCode());
     }

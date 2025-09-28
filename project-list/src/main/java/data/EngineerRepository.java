@@ -1,5 +1,6 @@
 package data;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -7,6 +8,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public class EngineerRepository {
@@ -34,6 +36,7 @@ public class EngineerRepository {
             transaction = session.beginTransaction();
             session.persist(engineer);
             transaction.commit();
+            System.out.println("Saved engineer: " + engineer);
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
             throw new RuntimeException("Ошибка при сохранении исполнителя", e);
@@ -60,7 +63,7 @@ public class EngineerRepository {
 
     public List<EngineerEntity> findAllEngineers() {
         try (Session session = sessionFactory.openSession()) {
-            Query<EngineerEntity> query = session.createQuery("from EngineerEntity ", EngineerEntity.class);
+            Query<EngineerEntity> query = session.createQuery("from EngineerEntity", EngineerEntity.class);
             return query.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Failed to retrieve all projects", e);
@@ -98,14 +101,23 @@ public class EngineerRepository {
         }
     }
 
-    public EngineerEntity findEngineerByName(String engineerName) {
-        try (Session session = sessionFactory.openSession()) {
-            Query<EngineerEntity> query = session.createQuery(
-                    "FROM EngineerEntity WHERE name = :engineerName", EngineerEntity.class);
-            query.setParameter("name", engineerName);
-            return query.getSingleResult();
+    public EngineerEntity findEngineerByName(String name) {
+        Session session = sessionFactory.openSession();
+        try {
+            String hql = "FROM EngineerEntity WHERE engineerName = :name";
+            Query<EngineerEntity> query = session.createQuery(hql, EngineerEntity.class);
+            query.setParameter("name", name);
+            EngineerEntity engineer = query.getSingleResult();
+
+            if (engineer == null) {
+                // Можно создать нового инженера или вернуть null
+                System.out.println("Engineer not found: " + name);
+            }
+            return engineer;
         } catch (Exception e) {
-            throw new RuntimeException("Failed to find engineer by name: " + engineerName, e);
+            throw new RuntimeException("Failed to find engineer by name: " + name, e);
+        } finally {
+            session.close();
         }
     }
 

@@ -33,7 +33,7 @@ public class SearchFrame extends JFrame{
         deleteButton.setEnabled(false);
         searchButtonSF.addActionListener(e -> getProjects(inputTextSF.getText()));
         projectsComboBox.addActionListener(e -> {
-            String tmpProjectName = projectsComboBox.getSelectedItem().toString();
+            String tmpProjectName = Objects.requireNonNull(projectsComboBox.getSelectedItem()).toString();
             System.out.println(tmpProjectName);
             currentProject = getCurrentProject(tmpProjectName);
         });
@@ -47,8 +47,8 @@ public class SearchFrame extends JFrame{
         engineerSelectSF.removeAllItems();
         ArrayList <String> engineers = new ArrayList<>();
         for(EngineerEntity engineer:engineerRepository.findAllEngineers()){
-            engineers.add(engineer.getName());
-            engineerSelectSF.addItem(engineer.getName());
+            engineers.add(engineer.getEngineerName());
+            engineerSelectSF.addItem(engineer.getEngineerName());
         }
         for(ProjectEntity projectEntity : projectRepository.findAll()){
             if(projectEntity.getName().equalsIgnoreCase(name)||
@@ -85,7 +85,7 @@ public class SearchFrame extends JFrame{
             else {
                     projectNameSF.setText(projectEntity.get().getName());
                     codeNameSF.setText(projectEntity.get().getCode());
-                    engineerSelectSF.setSelectedItem(projectEntity.get().getEngineerID().getName());
+                    engineerSelectSF.setSelectedItem(projectEntity.get().getEngineerID().getEngineerName());
                     changeButton.setEnabled(true);
                     deleteButton.setEnabled(true);
                     return projectEntity.get();
@@ -106,7 +106,7 @@ public class SearchFrame extends JFrame{
                     "Запись для проекта id " + project.getId() + " обновлена.\n" +
                             "Наименование: " + project.getName() +
                             "\nШифр: " + project.getCode() +
-                            "\nИсполнитель: " + project.getEngineerID().getName());
+                            "\nИсполнитель: " + project.getEngineerID().getEngineerName());
             refreshFrame();
         }
     }
@@ -121,7 +121,7 @@ public class SearchFrame extends JFrame{
                     "Запись для проекта id " + project.getId() + " удалена.\n" +
                             "Наименование: " + project.getName() +
                             "\nШифр: " + project.getCode() +
-                            "\nИсполнитель: " + project.getEngineerID().getName());
+                            "\nИсполнитель: " + project.getEngineerID().getEngineerName());
         refreshFrame();
         }
     }
