@@ -2,6 +2,8 @@ package data;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 @Data
@@ -22,8 +24,10 @@ public class ProjectEntity {
     @Column(name = "date")
     private LocalDate date;
 
-    @Column(name = "engineer")
-    private String engineer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn (nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private EngineerEntity engineerID;
 
     @Override
     public String toString() {
@@ -31,6 +35,6 @@ public class ProjectEntity {
                 ", наименование: " + name +
                 ", шифр: " + code +
                 ", дата: " + date +
-                ", исполнитель: " + engineer;
+                ", исполнитель: " + engineerID.getName();
     }
 }

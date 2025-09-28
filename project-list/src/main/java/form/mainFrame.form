@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="form.MainFrame">
-  <grid id="27dc6" binding="contentPane" layout-manager="GridLayoutManager" row-count="9" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="contentPane" layout-manager="GridLayoutManager" row-count="10" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
       <xy x="20" y="20" width="350" height="400"/>
@@ -60,7 +60,7 @@
       </component>
       <component id="db2ed" class="javax.swing.JButton" binding="inputButton">
         <constraints>
-          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+          <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
             <preferred-size width="100" height="-1"/>
           </grid>
         </constraints>
@@ -76,7 +76,7 @@
       </component>
       <component id="d3b25" class="javax.swing.JTextArea" binding="text2">
         <constraints>
-          <grid row="7" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
+          <grid row="8" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
@@ -87,12 +87,12 @@
           <font name="Tahoma" size="12" style="3"/>
           <foreground color="-2631721"/>
           <name value="text2"/>
-          <text value="Шифр проекта"/>
+          <text value="Шифр проекта "/>
         </properties>
       </component>
       <component id="182df" class="javax.swing.JTextField" binding="outputText">
         <constraints>
-          <grid row="8" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="9" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <minimum-size width="-1" height="30"/>
             <preferred-size width="150" height="30"/>
           </grid>
@@ -113,7 +113,7 @@
         <properties>
           <font name="Tahoma" size="12" style="3"/>
           <foreground color="-2631721"/>
-          <text value="Наименование проекта"/>
+          <text value="Наименование проекта "/>
         </properties>
       </component>
       <component id="740d7" class="javax.swing.JComboBox" binding="engineerSelect">
@@ -134,12 +134,12 @@
           <enabled value="true"/>
           <font name="Tahoma" size="12" style="3"/>
           <foreground color="-2631721"/>
-          <text value="Исполнитель"/>
+          <text value="Исполнитель "/>
         </properties>
       </component>
       <component id="b1e77" class="javax.swing.JButton" binding="searchButton">
         <constraints>
-          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+          <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
             <preferred-size width="100" height="-1"/>
           </grid>
         </constraints>
@@ -151,6 +151,22 @@
           <label value="Поиск"/>
           <name value="enterButton"/>
           <text value="Поиск"/>
+        </properties>
+      </component>
+      <component id="ff435" class="javax.swing.JButton" binding="engineersButton">
+        <constraints>
+          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="100" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-12368566"/>
+          <focusCycleRoot value="true"/>
+          <font name="Tahoma" size="12" style="3"/>
+          <foreground color="-2631721"/>
+          <label value="Изменить"/>
+          <name value="engineersButton"/>
+          <text value="Изменить"/>
         </properties>
       </component>
     </children>

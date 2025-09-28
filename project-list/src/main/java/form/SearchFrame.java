@@ -1,17 +1,14 @@
 package form;
 
+import data.EngineerEntity;
+import data.EngineerRepository;
 import data.ProjectEntity;
 import data.ProjectRepository;
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
 import javax.swing.*;
 import java.util.*;
-import java.util.stream.IntStream;
 
 public class SearchFrame extends JFrame{
-    private JPanel contentPane;
+    private JPanel contentPaneSF;
     private JLabel imgLabel;
     private JTextField inputTextSF;
     private JComboBox projectsComboBox;
@@ -22,11 +19,12 @@ public class SearchFrame extends JFrame{
     private JTextField projectNameSF;
     private JTextField codeNameSF;
     private ProjectRepository projectRepository;
+    private EngineerRepository engineerRepository;
     private ProjectEntity currentProject;
 
     public SearchFrame() {
         try {
-            setContentPane(contentPane);
+            setContentPane(contentPaneSF);
             projectRepository = new ProjectRepository();
         } catch (Exception e) {
             System.err.println("ContentPane cannot be set");
@@ -47,10 +45,11 @@ public class SearchFrame extends JFrame{
         List<ProjectEntity> projects = new ArrayList<>();
         projectsComboBox.removeAllItems();
         engineerSelectSF.removeAllItems();
-        String[] engineers = new String[3];
-        engineers[0] = "Коновалов С.В.";
-        engineers[1] = "Розанцев А.С.";
-        IntStream.range(0, 3).forEach(i -> engineerSelectSF.addItem(engineers[i]));
+        ArrayList <String> engineers = new ArrayList<>();
+        for(EngineerEntity engineer:engineerRepository.findAllEngineers()){
+            engineers.add(engineer.getName());
+            engineerSelectSF.addItem(engineer.getName());
+        }
         for(ProjectEntity projectEntity : projectRepository.findAll()){
             if(projectEntity.getName().equalsIgnoreCase(name)||
                     projectEntity.getName().toLowerCase().contains(name.toLowerCase())){
@@ -86,7 +85,7 @@ public class SearchFrame extends JFrame{
             else {
                     projectNameSF.setText(projectEntity.get().getName());
                     codeNameSF.setText(projectEntity.get().getCode());
-                    engineerSelectSF.setSelectedItem(projectEntity.get().getEngineer());
+                    engineerSelectSF.setSelectedItem(projectEntity.get().getEngineerID().getName());
                     changeButton.setEnabled(true);
                     deleteButton.setEnabled(true);
                     return projectEntity.get();
@@ -101,13 +100,13 @@ public class SearchFrame extends JFrame{
         else {
             project.setName(projectNameSF.getText());
             project.setCode(codeNameSF.getText());
-            project.setEngineer(engineerSelectSF.getSelectedItem().toString());
+            project.setEngineerID(engineerRepository.findEngineerByName(engineerSelectSF.getSelectedItem().toString()));
             projectRepository.update(project);
             JOptionPane.showMessageDialog(this,
                     "Запись для проекта id " + project.getId() + " обновлена.\n" +
                             "Наименование: " + project.getName() +
                             "\nШифр: " + project.getCode() +
-                            "\nИсполнитель: " + project.getEngineer());
+                            "\nИсполнитель: " + project.getEngineerID().getName());
             refreshFrame();
         }
     }
@@ -122,7 +121,7 @@ public class SearchFrame extends JFrame{
                     "Запись для проекта id " + project.getId() + " удалена.\n" +
                             "Наименование: " + project.getName() +
                             "\nШифр: " + project.getCode() +
-                            "\nИсполнитель: " + project.getEngineer());
+                            "\nИсполнитель: " + project.getEngineerID().getName());
         refreshFrame();
         }
     }
@@ -139,6 +138,6 @@ public class SearchFrame extends JFrame{
      * @noinspection ALL
      */
     public JComponent $$$getRootComponent$$$() {
-        return contentPane;
+        return contentPaneSF;
     }
 }

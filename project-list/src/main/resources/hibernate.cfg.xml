@@ -28,5 +28,6 @@
 
         <!-- Entity classes -->
         <mapping class="data.ProjectEntity"/>
+        <mapping class="data.EngineerEntity"/>
     </session-factory>
 </hibernate-configuration>
