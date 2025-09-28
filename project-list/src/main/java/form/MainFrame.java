@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
@@ -30,24 +31,17 @@ public class MainFrame extends JDialog {
         try {
             setContentPane(contentPane);
             setModal(true);
-
             projectRepository = new ProjectRepository();
             engineerRepository = new EngineerRepository();
-//            String[] engineers = new String[3];
-//            engineers[0] = "Коновалов С.В.";
-//            engineers[1] = "Розанцев А.С.";
-//
-//            IntStream.range(0, 3).forEach(i -> engineerSelect.addItem(engineers[i]));
-            
-            ArrayList <String> engineers = new ArrayList<>();
-            for(EngineerEntity engineer:engineerRepository.findAllEngineers()){
-                engineers.add(engineer.getEngineerName());
-            }
-            IntStream.range(0, engineers.size()).forEach(i -> {engineerSelect.addItem(engineers.get(i));});
-            // Показываем информацию о БД
             showDatabaseInfo();
+
+            engineerSelect.removeAllItems();
+            for(EngineerEntity engineer:engineerRepository.findAllEngineers()){
+                engineerSelect.addItem(engineer.getEngineerName());
+            }
+
         } catch (Exception e) {
-            System.err.println("ContentPane cannot be set");
+            System.out.println("Ошибка при загрузке данных: " + e.getMessage());
         }
 
         inputButton.addActionListener(e -> createProject(inputText.getText()));
@@ -72,28 +66,35 @@ public class MainFrame extends JDialog {
 
     private void createProject(String name){
         ProjectEntity project = new ProjectEntity();
-        project.setName(name);
-        project.setDate(LocalDate.now());
-        project.setEngineerID(engineerRepository.
-                findEngineerByName(Objects.requireNonNull(engineerSelect.getSelectedItem()).toString()));
-        String prefix = (project.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).substring(3,10);
-        projectRepository.save(project);
-        int id = 0;
-        for(ProjectEntity projectEntity : projectRepository.findAll()){
-            if(projectEntity.getName().equals(name)){
-                id = projectEntity.getId();
+        EngineerEntity engineer;
+        if(engineerSelect.getSelectedItem()!=null && name!=null){
+            engineer = engineerRepository.findEngineerByName(engineerSelect.getSelectedItem().toString());
+            project.setEngineer(engineer);
+            project.setName(name);
+            project.setDate(LocalDate.now());
+            String prefix = (project.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).substring(3,10);
+            projectRepository.save(project);
+            int id = 0;
+            for(ProjectEntity projectEntity : projectRepository.findAll()){
+                if(projectEntity.getName().equals(name)){
+                    id = projectEntity.getId();
+                }
             }
+            project.setCode(id + "-" + prefix + "-ОВ");
+            projectRepository.update(project);
+            outputText.setText(project.getCode());
+            JOptionPane.showMessageDialog(this,
+                    "Проект сохранен.\nНаименование: "+project.getName()+
+                            "\nИсполнитель: "+project.getEngineer().getEngineerName()+
+                            "\nДата: "+project.getDate()+
+                            "\nПрисвоен шифр: "+project.getCode());
         }
-        project.setCode(id + "-" + prefix + "-ОВ");
-        projectRepository.update(project);
-        outputText.setText(project.getCode());
-        JOptionPane.showMessageDialog(this,
-                "Проект сохранен.\nНаименование: "+project.getName()+
-                        "\nИсполнитель: "+project.getEngineerID().getEngineerName()+
-                        "\nДата: "+project.getDate()+
-                        "\nПрисвоен шифр: "+project.getCode());
+        else {
+            JOptionPane.showMessageDialog(this,
+                    "Необходимо заполнить поля Наименование и Исполнитель" +
+                            "\nЕсли данные исполнителя в базе отсутствуют, воспользуйтесь кнопкой Изменить");
+        }
     }
-
 
     private void goToSearchFrame() {
         SearchFrame searchFrame = new SearchFrame();

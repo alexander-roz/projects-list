@@ -38,27 +38,13 @@ public class EngineerRepository {
             transaction.commit();
             System.out.println("Saved engineer: " + engineer);
         } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
-            throw new RuntimeException("Ошибка при сохранении исполнителя", e);
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Failed to save engineer: " + engineer.getEngineerName(), e);
         } finally {
             if (session != null) session.close();
         }
-    }
-
-    public EngineerEntity findEngineerById(Long id) {
-        Session session = null;
-        EngineerEntity engineer = null;
-        try {
-            session = sessionFactory.openSession();
-            engineer = session.getReference(EngineerEntity.class, id);
-            System.out.println("Engineer found: " + engineer + " in findById method");
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to find engineer by id: " + id, e);
-        }
-        finally {
-            if (session != null) session.close();
-        }
-        return engineer;
     }
 
     public List<EngineerEntity> findAllEngineers() {
@@ -106,16 +92,11 @@ public class EngineerRepository {
         try {
             String hql = "FROM EngineerEntity WHERE engineerName = :name";
             Query<EngineerEntity> query = session.createQuery(hql, EngineerEntity.class);
-            query.setParameter("name", name);
-            EngineerEntity engineer = query.getSingleResult();
-
-            if (engineer == null) {
-                // Можно создать нового инженера или вернуть null
-                System.out.println("Engineer not found: " + name);
-            }
-            return engineer;
+            query.setParameter("engineerName", name);
+            return query.uniqueResult();
         } catch (Exception e) {
-            throw new RuntimeException("Failed to find engineer by name: " + name, e);
+            System.err.println("Error finding engineer: " + e.getMessage());
+            return null;
         } finally {
             session.close();
         }

@@ -24,10 +24,9 @@ public class ProjectEntity {
     @Column(name = "date")
     private LocalDate date;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn (nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private EngineerEntity engineerID;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName = "engineerId")
+    private EngineerEntity engineer;
 
     @Override
     public String toString() {
@@ -35,6 +34,6 @@ public class ProjectEntity {
                 ", наименование: " + name +
                 ", шифр: " + code +
                 ", дата: " + date +
-                ", исполнитель: " + engineerID.getEngineerName();
+                ", исполнитель: " + engineer.getEngineerName();
     }
 }
