@@ -1,6 +1,5 @@
 package data;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -8,7 +7,6 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
 import java.util.List;
-import java.util.Optional;
 
 
 public class EngineerRepository {
@@ -93,19 +91,12 @@ public class EngineerRepository {
             String hql = "FROM EngineerEntity WHERE engineerName = :name";
             Query<EngineerEntity> query = session.createQuery(hql, EngineerEntity.class);
             query.setParameter("engineerName", name);
-            return query.uniqueResult();
+            return query.getSingleResult();
         } catch (Exception e) {
             System.err.println("Error finding engineer: " + e.getMessage());
             return null;
         } finally {
             session.close();
-        }
-    }
-
-    public void close() {
-        if (sessionFactory != null && !sessionFactory.isClosed()) {
-            sessionFactory.close();
-            System.out.println("Database connection closed");
         }
     }
 }

@@ -8,10 +8,6 @@ import data.ProjectRepository;
 import javax.swing.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.IntStream;
 
 public class MainFrame extends JDialog {
     private JTextField inputText;
@@ -69,7 +65,7 @@ public class MainFrame extends JDialog {
         EngineerEntity engineer;
         if(engineerSelect.getSelectedItem()!=null && name!=null){
             engineer = engineerRepository.findEngineerByName(engineerSelect.getSelectedItem().toString());
-            project.setEngineer(engineer);
+            project.setEngineerId(engineer);
             project.setName(name);
             project.setDate(LocalDate.now());
             String prefix = (project.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).substring(3,10);
@@ -85,7 +81,7 @@ public class MainFrame extends JDialog {
             outputText.setText(project.getCode());
             JOptionPane.showMessageDialog(this,
                     "Проект сохранен.\nНаименование: "+project.getName()+
-                            "\nИсполнитель: "+project.getEngineer().getEngineerName()+
+                            "\nИсполнитель: "+project.getEngineerId().getEngineerName()+
                             "\nДата: "+project.getDate()+
                             "\nПрисвоен шифр: "+project.getCode());
         }

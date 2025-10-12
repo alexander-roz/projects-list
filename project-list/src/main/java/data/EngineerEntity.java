@@ -15,15 +15,14 @@ public class EngineerEntity {
     @Column(name = "engineerId")
     private Integer engineerId;
 
-    @Column(name = "engineerName")
+    @Column(name = "engineerName", nullable = false)
     private String engineerName;
 
-    @OneToMany(mappedBy = "engineer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "engineerId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ProjectEntity> projects = new ArrayList<>();
 
     @Override
     public String toString() {
-        return  "id: " + engineerId +
-                ", имя: " + engineerName;
+        return engineerName;
     }
 }

@@ -93,7 +93,7 @@ public class SearchFrame extends JFrame{
             } else {
                 projectNameSF.setText(projectEntity.get().getName());
                 codeNameSF.setText(projectEntity.get().getCode());
-                engineerSelectSF.setSelectedItem(projectEntity.get().getEngineer().getEngineerName());
+                engineerSelectSF.setSelectedItem(projectEntity.get().getEngineerId().getEngineerName());
                 changeButton.setEnabled(true);
                 deleteButton.setEnabled(true);
                 return projectEntity.get();
@@ -108,14 +108,14 @@ public class SearchFrame extends JFrame{
         else {
             project.setName(projectNameSF.getText());
             project.setCode(codeNameSF.getText());
-            project.setEngineer(engineerRepository
+            project.setEngineerId(engineerRepository
                     .findEngineerByName(Objects.requireNonNull(engineerSelectSF.getSelectedItem()).toString()));
             projectRepository.update(project);
             JOptionPane.showMessageDialog(this,
                     "Запись для проекта id " + project.getId() + " обновлена.\n" +
                             "Наименование: " + project.getName() +
                             "\nШифр: " + project.getCode() +
-                            "\nИсполнитель: " + project.getEngineer().getEngineerName());
+                            "\nИсполнитель: " + project.getEngineerId().getEngineerName());
             refreshFrame();
         }
     }
@@ -130,7 +130,7 @@ public class SearchFrame extends JFrame{
                     "Запись для проекта id " + project.getId() + " удалена.\n" +
                             "Наименование: " + project.getName() +
                             "\nШифр: " + project.getCode() +
-                            "\nИсполнитель: " + project.getEngineer().getEngineerName());
+                            "\nИсполнитель: " + project.getEngineerId().getEngineerName());
         refreshFrame();
         }
     }

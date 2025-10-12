@@ -57,7 +57,8 @@ public class EngineersForm  extends JFrame {
     }
 
     private void saveEngineer(String engineerName) {
-        if (engineerRepository.findEngineerByName(engineerName) != null) {
+        if (!engineerRepository.findAllEngineers().isEmpty() &&
+                engineerRepository.findEngineerByName(engineerName) != null) {
             JOptionPane.showMessageDialog(this, "Данное имя уже используется");
             getEngineers();
         } else {

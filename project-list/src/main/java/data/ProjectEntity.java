@@ -2,8 +2,6 @@ package data;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 @Data
@@ -26,7 +24,7 @@ public class ProjectEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(referencedColumnName = "engineerId")
-    private EngineerEntity engineer;
+    private EngineerEntity engineerId;
 
     @Override
     public String toString() {
@@ -34,6 +32,6 @@ public class ProjectEntity {
                 ", наименование: " + name +
                 ", шифр: " + code +
                 ", дата: " + date +
-                ", исполнитель: " + engineer.getEngineerName();
+                ", исполнитель: " + engineerId.getEngineerName();
     }
 }
