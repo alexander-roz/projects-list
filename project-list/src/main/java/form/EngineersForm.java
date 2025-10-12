@@ -1,9 +1,11 @@
 package form;
 
+import com.aurora.Main;
 import data.EngineerEntity;
 import data.EngineerRepository;
 
 import javax.swing.*;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +14,6 @@ public class EngineersForm  extends JFrame {
     private JPanel contentPaneEF;
     private JLabel imgLabel;
     private JTextField engineerNameEF;
-    private JButton changeButtonEF;
     private JButton deleteButtonEF;
     private JComboBox engineerSelectEF;
     private JButton addButtonEF;
@@ -23,8 +24,17 @@ public class EngineersForm  extends JFrame {
         setContentPane(contentPaneEF);
         engineerRepository = new EngineerRepository();
         getEngineers();
+//        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+//        this.addWindowListener(new java.awt.event.WindowAdapter() {
+//            @Override
+//            public void windowClosing(java.awt.event.WindowEvent e) {
+//                MainFrame mainFrame = new MainFrame();
+//                mainFrame.refreshEngineersList();
+//                e.getWindow().dispose();
+//                System.out.println("Engineers form closed!");
+//            }
+//        });
         if(!engineerRepository.findAllEngineers().isEmpty()){
-            changeButtonEF.setEnabled(true);
             deleteButtonEF.setEnabled(true);
         }
         addButtonEF.setEnabled(true);
@@ -45,12 +55,10 @@ public class EngineersForm  extends JFrame {
         if(engineers.isEmpty()){
             JOptionPane.showMessageDialog(this, "Исполнители не найдены");
             addButtonEF.setEnabled(true);
-            changeButtonEF.setEnabled(false);
             deleteButtonEF.setEnabled(false);
             return;
         }
         else {
-            changeButtonEF.setEnabled(true);
             deleteButtonEF.setEnabled(true);
             addButtonEF.setEnabled(true);
         }

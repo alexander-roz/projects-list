@@ -6,6 +6,7 @@ import data.ProjectEntity;
 import data.ProjectRepository;
 
 import javax.swing.*;
+import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -31,10 +32,7 @@ public class MainFrame extends JDialog {
             engineerRepository = new EngineerRepository();
             showDatabaseInfo();
 
-            engineerSelect.removeAllItems();
-            for(EngineerEntity engineer:engineerRepository.findAllEngineers()){
-                engineerSelect.addItem(engineer.getEngineerName());
-            }
+            refreshEngineersList();
 
         } catch (Exception e) {
             System.out.println("Ошибка при загрузке данных: " + e.getMessage());
@@ -43,6 +41,13 @@ public class MainFrame extends JDialog {
         inputButton.addActionListener(e -> createProject(inputText.getText()));
         searchButton.addActionListener(e -> goToSearchFrame());
         engineersButton.addActionListener(e -> goToEngineersFrame());
+        engineerSelect.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                refreshEngineersList();
+                super.mouseClicked(e);
+            }
+        });
     }
 
     private void showDatabaseInfo() {
@@ -61,9 +66,9 @@ public class MainFrame extends JDialog {
     }
 
     private void createProject(String name){
-        ProjectEntity project = new ProjectEntity();
-        EngineerEntity engineer;
-        if(engineerSelect.getSelectedItem()!=null && name!=null){
+        if(name!=null && inputText.getText().isBlank() && engineerSelect.getSelectedItem()!=null){
+            ProjectEntity project = new ProjectEntity();
+            EngineerEntity engineer;
             engineer = engineerRepository.findEngineerByName(engineerSelect.getSelectedItem().toString());
             project.setEngineerId(engineer);
             project.setName(name);
@@ -105,6 +110,15 @@ public class MainFrame extends JDialog {
         engineersForm.setLocationRelativeTo(null);
         engineersForm.setVisible(true);
     }
+
+    public void refreshEngineersList(){
+        engineerSelect.removeAllItems();
+        for(EngineerEntity engineer:engineerRepository.findAllEngineers()){
+            engineerSelect.addItem(engineer.getEngineerName());
+        }
+    }
+
+
 
     /**
      * @noinspection ALL
