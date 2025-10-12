@@ -22,8 +22,8 @@ public class ProjectEntity {
     @Column(name = "date")
     private LocalDate date;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(referencedColumnName = "engineerId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "engineerId")
     private EngineerEntity engineerId;
 
     @Override
