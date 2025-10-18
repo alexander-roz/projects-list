@@ -38,7 +38,7 @@
           <horizontalAlignment value="0"/>
           <horizontalTextPosition value="0"/>
           <name value="text1"/>
-          <text value="Проектная документация"/>
+          <text value="Реестр проектной документации"/>
         </properties>
       </component>
       <component id="d3846" class="javax.swing.JTextField" binding="inputText">

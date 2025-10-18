@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class MainFrame extends JDialog {
     private JTextField inputText;
@@ -65,35 +66,53 @@ public class MainFrame extends JDialog {
         }
     }
 
-    private void createProject(String name){
-        if(name!=null && inputText.getText().isBlank() && engineerSelect.getSelectedItem()!=null){
-            ProjectEntity project = new ProjectEntity();
-            EngineerEntity engineer;
-            engineer = engineerRepository.findEngineerByName(engineerSelect.getSelectedItem().toString());
-            project.setEngineerId(engineer);
-            project.setName(name);
-            project.setDate(LocalDate.now());
-            String prefix = (project.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).substring(3,10);
-            projectRepository.save(project);
-            int id = 0;
-            for(ProjectEntity projectEntity : projectRepository.findAll()){
-                if(projectEntity.getName().equals(name)){
-                    id = projectEntity.getId();
-                }
+    private void createProject(String name) {
+        boolean found = false;
+        for (ProjectEntity project : projectRepository.findAll()) {
+            if (project.getName().equalsIgnoreCase(name)) {
+                found = true;
+                break;
             }
-            project.setCode(id + "-" + prefix + "-ОВ");
-            projectRepository.update(project);
-            outputText.setText(project.getCode());
-            JOptionPane.showMessageDialog(this,
-                    "Проект сохранен.\nНаименование: "+project.getName()+
-                            "\nИсполнитель: "+project.getEngineerId().getEngineerName()+
-                            "\nДата: "+project.getDate()+
-                            "\nПрисвоен шифр: "+project.getCode());
         }
-        else {
+        if (found) {
             JOptionPane.showMessageDialog(this,
-                    "Необходимо заполнить поля Наименование и Исполнитель" +
-                            "\nЕсли данные исполнителя в базе отсутствуют, воспользуйтесь кнопкой Изменить");
+                    "Заданное имя проекта уже используется.\n" +
+                            "Измените наименование или воспользуйтесь конокой Поиск для редактирования записи");
+        } else {
+            if (
+                    name.trim().isEmpty() ||
+                            Objects.equals(engineerSelect.getSelectedItem(), "") ||
+                            Objects.equals(engineerSelect.getSelectedItem(), " ")
+            ) {
+                JOptionPane.showMessageDialog(this,
+                        "Необходимо заполнить поля Наименование и Исполнитель" +
+                                "\n Для редактирования списка исполнителей, " +
+                                "\nвоспользуйтесь кнопкой Изменить список");
+            } else {
+                ProjectEntity project = new ProjectEntity();
+                EngineerEntity engineer;
+                engineer = engineerRepository.findEngineerByName(engineerSelect.getSelectedItem().toString());
+                project.setEngineerId(engineer);
+                project.setName(name);
+                project.setDate(LocalDate.now());
+                String prefix = (project.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).substring(3, 10);
+                projectRepository.save(project);
+                int id = 0;
+                for (ProjectEntity projectEntity : projectRepository.findAll()) {
+                    if (projectEntity.getName().equals(name)) {
+                        id = projectEntity.getId();
+                    }
+                }
+                project.setCode(id + "-" + prefix + "-ОВ");
+                projectRepository.update(project);
+                outputText.setText(project.getCode());
+                JOptionPane.showMessageDialog(this,
+                        "Проект сохранен.\nНаименование: " + project.getName() +
+                                "\nИсполнитель: " + project.getEngineerId().getEngineerName() +
+                                "\nДата: " + project.getDate() +
+                                "\nПрисвоен шифр: " + project.getCode() +
+                        "\nСкопируйте шифр для добавления в документацию");
+            }
         }
     }
 

@@ -85,24 +85,8 @@ public class EngineerRepository {
         }
     }
 
-//    public EngineerEntity findEngineerByName(String name) {
-//        Session session = sessionFactory.openSession();
-//        try {
-//            String hql = "FROM EngineerEntity WHERE engineerName = :name";
-//            Query<EngineerEntity> query = session.createQuery(hql, EngineerEntity.class);
-//            query.setParameter("engineerName", name);
-//            return query.getSingleResult();
-//        } catch (Exception e) {
-//            System.err.println("Error finding engineer: " + e.getMessage());
-//            return null;
-//        } finally {
-//            session.close();
-//        }
-//    }
-
     public EngineerEntity findEngineerByName(String name) {
         try (Session session = sessionFactory.openSession()) {
-            // Было: :engineerName, должно быть: :name
             Query<EngineerEntity> query = session.createQuery(
                     "FROM EngineerEntity WHERE engineerName = :name", EngineerEntity.class);
             query.setParameter("name", name);
