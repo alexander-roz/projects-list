@@ -24,7 +24,7 @@
           <foreground color="-1"/>
           <name value="inputText"/>
           <selectedTextColor color="-1"/>
-          <selectionColor color="-1"/>
+          <selectionColor color="-13947600"/>
           <text value=""/>
         </properties>
       </component>
@@ -95,7 +95,7 @@
           <foreground color="-1"/>
           <name value="inputText"/>
           <selectedTextColor color="-1"/>
-          <selectionColor color="-1"/>
+          <selectionColor color="-13947600"/>
           <text value=""/>
         </properties>
       </component>
@@ -122,7 +122,7 @@
           <foreground color="-1"/>
           <name value="inputText"/>
           <selectedTextColor color="-1"/>
-          <selectionColor color="-1"/>
+          <selectionColor color="-13947600"/>
           <text value=""/>
         </properties>
       </component>
