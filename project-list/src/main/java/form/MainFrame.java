@@ -7,8 +7,12 @@ import data.ProjectRepository;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class MainFrame extends JDialog {
@@ -22,6 +26,7 @@ public class MainFrame extends JDialog {
     private JComboBox engineerSelect;
     private JButton searchButton;
     private JButton engineersButton;
+    private JButton printButton;
     private ProjectRepository projectRepository;
     private EngineerRepository engineerRepository;
 
@@ -42,6 +47,7 @@ public class MainFrame extends JDialog {
         inputButton.addActionListener(e -> createProject(inputText.getText()));
         searchButton.addActionListener(e -> goToSearchFrame());
         engineersButton.addActionListener(e -> goToEngineersFrame());
+        printButton.addActionListener(e -> printProjects());
         engineerSelect.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -134,6 +140,25 @@ public class MainFrame extends JDialog {
         engineerSelect.removeAllItems();
         for(EngineerEntity engineer:engineerRepository.findAllEngineers()){
             engineerSelect.addItem(engineer.getEngineerName());
+        }
+    }
+
+    private void printProjects() {
+        ArrayList<ProjectEntity> projects = new ArrayList<>(projectRepository.findAll());
+
+        try {
+            FileWriter writer = new FileWriter("projects.txt");
+            for (ProjectEntity project : projects) {
+                writer.write(project + "\n");
+            }
+            JOptionPane.showMessageDialog(this,
+                    "Список объектов сформирован и сохранен в файле projects.txt");
+            writer.close();
+        }
+        catch (IOException e) {
+            JOptionPane.showMessageDialog(this,
+                    "При записи в файл произошла ошибка");
+            e.printStackTrace();
         }
     }
 

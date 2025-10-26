@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -21,7 +19,7 @@ public class EngineerEntity {
     private String engineerName;
 
     @OneToMany(mappedBy = "engineerId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<ProjectEntity> projects = new HashSet<>();
+    private List<ProjectEntity> projects = new ArrayList<>();
 
     @Override
     public String toString() {

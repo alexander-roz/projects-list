@@ -32,6 +32,6 @@ public class ProjectEntity {
                 ", наименование: " + name +
                 ", шифр: " + code +
                 ", дата: " + date +
-                ", исполнитель: " + engineerId.getEngineerName();
+                ", исполнитель: " + engineerId;
     }
 }
