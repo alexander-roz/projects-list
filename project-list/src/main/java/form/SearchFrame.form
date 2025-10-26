@@ -8,6 +8,7 @@
     <properties>
       <background color="-12367780"/>
       <font name="Tahoma" size="12" style="3"/>
+      <maximumSize width="337" height="398"/>
     </properties>
     <border type="none"/>
     <children>

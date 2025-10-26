@@ -22,7 +22,7 @@ public class ProjectEntity {
     @Column(name = "date")
     private LocalDate date;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "engineerId")
     private EngineerEntity engineerId;
 

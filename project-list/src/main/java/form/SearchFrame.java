@@ -5,7 +5,9 @@ import data.EngineerRepository;
 import data.ProjectEntity;
 import data.ProjectRepository;
 import javax.swing.*;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class SearchFrame extends JFrame{
     private JPanel contentPaneSF;
