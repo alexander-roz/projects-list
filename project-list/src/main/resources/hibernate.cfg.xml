@@ -6,7 +6,7 @@
     <session-factory>
         <!-- H2 Database Connection -->
         <property name="hibernate.connection.driver_class">org.h2.Driver</property>
-        <property name="hibernate.connection.url">jdbc:h2:file:./database/projects</property>
+        <property name="hibernate.connection.url">jdbc:h2:file:./database/projects;FILE_LOCK=NO</property>
         <property name="hibernate.connection.username">rs</property>
         <property name="hibernate.connection.password"></property>
 
